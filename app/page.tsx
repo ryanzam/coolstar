@@ -1,3 +1,4 @@
+import Cta from "@/components/Cta";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import Sectors from "@/components/Sectors";
@@ -11,6 +12,7 @@ export default function Home() {
       <Hero />
       <Sectors />
       <Services />
+      <Cta />
     </div>
   );
 }
