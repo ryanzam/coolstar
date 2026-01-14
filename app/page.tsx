@@ -1,18 +1,17 @@
 import Cta from "@/components/Cta";
 import Hero from "@/components/Hero";
-import Navbar from "@/components/Navbar";
+import QuickAction from "@/components/QuickAction";
 import Sectors from "@/components/Sectors";
 import Services from "@/components/Services";
-import Image from "next/image";
 
 export default function Home() {
   return (
     <div className="min-h-screen dark:bg-black">
-      <Navbar />
       <Hero />
       <Sectors />
       <Services />
       <Cta />
+      <QuickAction />
     </div>
   );
 }
