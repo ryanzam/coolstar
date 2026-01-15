@@ -12,7 +12,7 @@ import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMe
 const navLinks = [
     { name: "Home", path: "/" },
     { name: "Services", path: "#services" },
-    { name: "Book Appointment", path: "/booking" },
+    { name: "Book Service", path: "/dashboard" },
     { name: "Contact", path: "#contact" },
 ];
 
@@ -87,7 +87,7 @@ const Navbar = () => {
                                             </NavigationMenuTrigger>
                                             <NavigationMenuContent>
                                                 <NavigationMenuLink className="cursor-pointer">Profile</NavigationMenuLink>
-                                                <NavigationMenuLink href="/bookings" className="cursor-pointer">Bookings</NavigationMenuLink>
+                                                <NavigationMenuLink href="/dashboard" className="cursor-pointer">Dashboard</NavigationMenuLink>
                                                 <NavigationMenuLink onClick={onLogout} className="cursor-pointer">Logout</NavigationMenuLink>
                                             </NavigationMenuContent>
                                         </NavigationMenuItem>
