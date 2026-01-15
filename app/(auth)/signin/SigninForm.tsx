@@ -1,4 +1,5 @@
-import { registerUser } from '@/app/api/auth';
+"use client";
+import { loginUser } from '@/app/api/auth';
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -9,15 +10,15 @@ import { useActionState, useEffect } from 'react'
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
-const SignupForm = () => {
+const SigninForm = () => {
 
     const router = useRouter();
-    const [state, formAction, isPending] = useActionState(registerUser, null);
+    const [state, formAction, isPending] = useActionState(loginUser, null);
 
     useEffect(() => {
         if (state?.success) {
-            toast.success("Account created! 🎉");
-            router.push("/signin")
+            toast.success("Signed in successfully!");
+            router.push("/booking")
         }
     }, [state?.success])
 
@@ -31,17 +32,6 @@ const SignupForm = () => {
             <form action={formAction}>
                 <Card>
                     <CardContent className="space-y-4">
-                        <div className='flex flex-col gap-2'>
-                            <Label htmlFor="name">Name *</Label>
-                            <Input
-                                id="name"
-                                name="name"
-                                type='text'
-                                placeholder="Sam"
-                                required
-                            />
-                        </div>
-
                         <div className='flex flex-col gap-2'>
                             <Label htmlFor="email">Email *</Label>
                             <Input
@@ -64,7 +54,7 @@ const SignupForm = () => {
                             />
                         </div>
 
-                        <Button type='submit' className='w-full cursor-pointer' size={'lg'} disabled={isPending}>Register</Button>
+                        <Button type='submit' className='w-full cursor-pointer' size={'lg'} disabled={isPending}>Signin <LogIn /></Button>
 
                         {/* <div className="flex items-center my-3">
                             <div className="grow border-t border-gray-300"></div>
@@ -72,7 +62,7 @@ const SignupForm = () => {
                             <div className="grow border-t border-gray-300"></div>
                         </div> */}
 
-                        <p className='text-sm text-gray-400'>Already have an account? <a href="/signin" className="text-black hover:underline">Sign in</a></p>
+                        <p className='text-sm text-gray-400'>Don't have an account? <a href="/signup" className="text-black hover:underline">Sign up</a></p>
 
                     </CardContent>
                 </Card>
@@ -81,4 +71,4 @@ const SignupForm = () => {
     )
 }
 
-export default SignupForm
+export default SigninForm

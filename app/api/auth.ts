@@ -1,5 +1,6 @@
 "use server";
 
+import { auth, signIn, signOut } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import z from "zod";
@@ -8,7 +9,12 @@ import z from "zod";
 const registerSchema = z.object({
     name: z.string().min(3, 'Name is required'),
     email: z.string().email('Invalid email'),
-    password: z.string().min(6, 'Password must be at least 8 characters'),
+    password: z.string().min(8, 'Password must be at least 8 characters'),
+});
+
+const loginSchema = z.object({
+    email: z.string().email('Invalid email'),
+    password: z.string().min(8, 'Password must be at least 8 characters'),
 });
 
 export async function registerUser(prevState: any, formData: FormData) {
@@ -63,4 +69,85 @@ export async function registerUser(prevState: any, formData: FormData) {
             error: error instanceof Error ? error.message : 'Failed to create account'
         }
     }
+}
+
+export async function loginUser(prevState: any, formData: FormData) {
+    try {
+        const formdata = {
+            email: formData.get('email') as string,
+            password: formData.get('password') as string,
+        };
+
+        const validateData = loginSchema.parse(formdata)
+
+        const result = await signIn('credentials', {
+            redirect: false,
+            email: validateData.email,
+            password: validateData.password,
+        });
+
+        if (result?.error) {
+            return {
+                success: false,
+                error: "Invalid email or password.",
+            }
+        }
+
+        return {
+            success: true,
+            message: "Sign in successful.",
+        }
+    } catch (error) {
+        console.error('Login user error:', error);
+
+        if (error instanceof z.ZodError) {
+            return {
+                success: false,
+                error: "Invalid email or password."
+            }
+        }
+
+        return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Failed to sign in'
+        }
+    }
+}
+
+export async function logoutUser() {
+    try {
+        await signOut({ redirect: false });
+
+        return {
+            success: true,
+            message: "Sign out successful.",
+        }
+    } catch (error) {
+        console.error('Logout user error:', error);
+
+        return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Failed to sign out'
+        }
+    }
+}
+
+/**
+ * Check if user is authenticated
+ */
+export async function requireAuth() {
+    const session = await auth();
+    if (!session?.user) {
+        throw new Error('Unauthorized');
+    }
+    return session;
+}
+
+export async function requireAdmin() {
+    const session = await requireAuth();
+
+    if (session.user.role !== 'ADMIN') {
+        throw new Error('Admin access required');
+    }
+    return session;
 }

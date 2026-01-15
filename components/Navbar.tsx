@@ -2,10 +2,12 @@
 
 import { cn } from "@/lib/utils";
 import { Phone, X, Menu } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import Link from 'next/link'
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { logoutUser, requireAuth } from "@/app/api/auth";
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "./ui/navigation-menu";
 
 const navLinks = [
     { name: "Home", path: "/" },
@@ -15,8 +17,32 @@ const navLinks = [
 ];
 
 const Navbar = () => {
+
     const [isOpen, setIsOpen] = useState(false);
-    const location = usePathname()
+    const [user, setUser] = useState<any>(null);
+
+    const location = usePathname();
+    const router = useRouter();
+
+
+    useEffect(() => {
+        requireAuth().then((session) => {
+            setUser(session.user);
+        }).catch(() => {
+            setUser(null);
+        });
+    }, [])
+
+
+    const onCancel = () => {
+        router.back();
+    }
+
+    const onLogout = async () => {
+        await logoutUser();
+        setUser(null);
+        router.push("/");
+    }
 
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 glass-card">
@@ -51,16 +77,36 @@ const Navbar = () => {
 
                     {/* CTA Button */}
                     <div className="hidden lg:flex items-center gap-4">
-                        <a
-                            href="tel:+27114521168"
-                            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-                        >
-                            <Phone className="w-4 h-4" />
-                            <span>986-5400200</span>
-                        </a>
-                        <Button asChild variant="default" size="sm">
-                            <Link href="/signup">Sign Up</Link>
-                        </Button>
+                        {user ?
+                            <>
+                                <NavigationMenu>
+                                    <NavigationMenuList>
+                                        <NavigationMenuItem>
+                                            <NavigationMenuTrigger>
+                                                {user.name}
+                                            </NavigationMenuTrigger>
+                                            <NavigationMenuContent>
+                                                <NavigationMenuLink className="cursor-pointer">Profile</NavigationMenuLink>
+                                                <NavigationMenuLink href="/bookings" className="cursor-pointer">Bookings</NavigationMenuLink>
+                                                <NavigationMenuLink onClick={onLogout} className="cursor-pointer">Logout</NavigationMenuLink>
+                                            </NavigationMenuContent>
+                                        </NavigationMenuItem>
+                                    </NavigationMenuList>
+                                </NavigationMenu>
+                            </> :
+                            <>
+                                <a
+                                    href="tel:986-5400200"
+                                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                                >
+                                    <Phone className="w-4 h-4" />
+                                    <span>986-5400200</span>
+                                </a>
+                                <Button asChild variant="default" size="sm">
+                                    <Link href="/signup">Sign Up</Link>
+                                </Button>
+                            </>
+                        }
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -76,14 +122,16 @@ const Navbar = () => {
                         )}
                     </button>
                 </div>
-            </div>
+            </div >
 
             {/* Mobile Navigation */}
-            <div
-                className={cn(
-                    "lg:hidden overflow-hidden transition-all duration-300",
-                    isOpen ? "max-h-96 border-t border-border" : "max-h-0"
-                )}
+            < div
+                className={
+                    cn(
+                        "lg:hidden overflow-hidden transition-all duration-300",
+                        isOpen ? "max-h-96 border-t border-border" : "max-h-0"
+                    )
+                }
             >
                 <div className="container mx-auto px-4 py-4 space-y-2">
                     {navLinks.map((link) => (
@@ -109,8 +157,8 @@ const Navbar = () => {
                         </Button>
                     </div>
                 </div>
-            </div>
-        </nav>
+            </div >
+        </nav >
     )
 }
 
