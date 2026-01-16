@@ -17,10 +17,10 @@ interface BookingFormProps {
 }
 
 const serviceTypes = [
-    { value: "AC installation", label: "AC Installation" },
-    { value: "repair", label: "Repair Service" },
-    { value: "inspection", label: "Inspection" },
-    { value: "consultation", label: "Consultation" },
+    { value: "AC Installation", label: "AC Installation" },
+    { value: "Repair Service", label: "Repair Service" },
+    { value: "Inspection", label: "Inspection" },
+    { value: "Consultation", label: "Consultation" },
 ];
 
 const BookingForm = ({ user }: BookingFormProps) => {

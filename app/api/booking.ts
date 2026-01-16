@@ -57,3 +57,54 @@ export async function bookService(prevState: any, formData: FormData) {
         }
     }
 }
+
+export async function getUserBookings(userId: string) {
+    try {
+        const bookings = await prisma.booking.findMany({
+            where: {
+                userId: userId
+            },
+            orderBy: {
+                created: 'desc'
+            }
+        });
+
+        return {
+            success: true,
+            message: "Booking fetched successfully.",
+            data: bookings
+        };
+
+    } catch (error) {
+        console.error('Error fetching user bookings:', error);
+
+        return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Failed to fetch user bookings.',
+        }
+    }
+}
+
+export async function getAllBookings() {
+    try {
+        const bookings = await prisma.booking.findMany({
+            orderBy: {
+                created: 'desc',
+            }
+        });
+
+        return {
+            success: true,
+            message: "Bookings fetched successfully.",
+            data: bookings
+        };
+
+    } catch (error) {
+        console.error('Error fetching all bookings:', error);
+
+        return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Failed to fetch all bookings.',
+        }
+    }
+}

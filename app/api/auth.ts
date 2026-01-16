@@ -3,6 +3,7 @@
 import { auth, signIn, signOut } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+import { revalidatePath } from "next/cache";
 import z from "zod";
 
 // schemas for auth actions
@@ -85,6 +86,8 @@ export async function loginUser(prevState: any, formData: FormData) {
             email: validateData.email,
             password: validateData.password,
         });
+
+        revalidatePath('/dashboard');
 
         if (result?.error) {
             return {

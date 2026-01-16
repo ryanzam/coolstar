@@ -18,7 +18,8 @@ const SigninForm = () => {
     useEffect(() => {
         if (state?.success) {
             toast.success("Signed in successfully!");
-            router.push("/booking")
+            router.push("/dashboard")
+            router.refresh();
         }
     }, [state?.success])
 
