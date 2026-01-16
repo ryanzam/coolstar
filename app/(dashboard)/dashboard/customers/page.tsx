@@ -1,6 +1,6 @@
 import { getUserBookings } from "@/app/api/booking";
-import BookingHeader from "../../../../components/BookingHeader"
-import BookingCard from "@/components/BookingCard";
+import BookingHeader from "../../../../components/booking/BookingHeader"
+import BookingCard from "@/components/booking/BookingCard";
 
 interface DashboardCustomersPageProps {
   user: any

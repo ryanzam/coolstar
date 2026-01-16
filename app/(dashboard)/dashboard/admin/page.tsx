@@ -1,9 +1,9 @@
-import { getAllBookings } from '@/app/api/booking';
-import BookingCard from '@/components/BookingCard';
+import { getAllBookings, updateBookingStatus } from '@/app/api/booking';
+import BookingCard from '@/components/booking/BookingCard';
 import { Alert, AlertTitle } from '@/components/ui/alert';
+import { BookingStatus } from '@prisma/client';
 import { ClockFadingIcon } from 'lucide-react';
-import React from 'react'
-
+import { refresh } from 'next/cache'
 interface DashboardAdminPageProps {
     user: any
 }
@@ -11,6 +11,8 @@ interface DashboardAdminPageProps {
 const DashboardAdminPage = async ({ user }: DashboardAdminPageProps) => {
 
     const { data: bookings } = await getAllBookings();
+
+    const pendingBookings = bookings?.filter((booking: any) => booking.status === BookingStatus.PENDING);
 
     return (
         <main className="pt-20 min-h-screen frost-bg">
@@ -20,7 +22,7 @@ const DashboardAdminPage = async ({ user }: DashboardAdminPageProps) => {
                     <Alert className='mb-3 text-white bg-secondary'>
                         <ClockFadingIcon />
                         <AlertTitle>
-                            {`${bookings?.length} pending booking(s).`}
+                            {`${pendingBookings?.length} pending booking(s).`}
                         </AlertTitle>
                     </Alert>
 

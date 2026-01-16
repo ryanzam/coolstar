@@ -2,6 +2,7 @@
 
 import { auth, signIn, signOut } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { BookingStatus } from "@prisma/client";
 import z from "zod";
 
 // schemas for auth actions
@@ -88,9 +89,24 @@ export async function getUserBookings(userId: string) {
 export async function getAllBookings() {
     try {
         const bookings = await prisma.booking.findMany({
+            select: {
+                id: true,
+                serviceType: true,
+                description: true,
+                address: true,
+                phone: true,
+                status: true,
+                created: true,
+                user: {
+                    select: {
+                        name: true,
+                        email: true,
+                    }
+                }
+            },
             orderBy: {
                 created: 'desc',
-            }
+            },
         });
 
         return {
@@ -105,6 +121,31 @@ export async function getAllBookings() {
         return {
             success: false,
             error: error instanceof Error ? error.message : 'Failed to fetch all bookings.',
+        }
+    }
+}
+
+export async function updateBookingStatus(prevState: any, formData: FormData) {
+    try {
+        const bookingId = formData.get('bookingId') as string;
+        const status = formData.get('bookingStatus') as BookingStatus;
+
+        const updatedBooking = await prisma.booking.update({
+            where: { id: bookingId },
+            data: { status: status },
+        });
+
+        return {
+            success: true,
+            message: "Booking status updated successfully.",
+            data: updatedBooking
+        };
+    } catch (error) {
+        console.error('Error updating booking status:', error);
+
+        return {
+            success: false,
+            error: error instanceof Error ? error.message : 'Failed to update booking status.',
         }
     }
 }
