@@ -1,5 +1,7 @@
 import { getAllBookings } from '@/app/api/booking';
 import BookingCard from '@/components/BookingCard';
+import { Alert, AlertTitle } from '@/components/ui/alert';
+import { ClockFadingIcon } from 'lucide-react';
 import React from 'react'
 
 interface DashboardAdminPageProps {
@@ -8,20 +10,28 @@ interface DashboardAdminPageProps {
 
 const DashboardAdminPage = async ({ user }: DashboardAdminPageProps) => {
 
-    const bookings = await getAllBookings();
+    const { data: bookings } = await getAllBookings();
 
     return (
         <main className="pt-20 min-h-screen frost-bg">
             <section className="py-16">
                 <div className="container mx-auto px-4">
-                    {bookings?.data && bookings?.data?.length > 0 ? (
+
+                    <Alert className='mb-3 text-white bg-secondary'>
+                        <ClockFadingIcon />
+                        <AlertTitle>
+                            {`${bookings?.length} pending booking(s).`}
+                        </AlertTitle>
+                    </Alert>
+
+                    {bookings && bookings?.length > 0 ? (
                         <div className='grid grid-cols-1 gap-2'>
-                            {bookings.data.map((booking: any) => (
-                                <BookingCard key={booking.id} booking={booking} />
+                            {bookings.map((booking: any) => (
+                                <BookingCard key={booking.id} booking={booking} adminView={true} />
                             ))}
                         </div>
                     ) : (
-                        <p>No bookings available.</p>
+                        <p>No pending bookings.</p>
                     )}
 
                 </div>

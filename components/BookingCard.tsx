@@ -1,3 +1,5 @@
+"use client"
+
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
 import { Booking, BookingStatus } from '@prisma/client'
 import { Badge } from "@/components/ui/badge"
@@ -5,7 +7,8 @@ import { CircleCheckBigIcon, CircleXIcon, ClockCheckIcon, ClockFadingIcon } from
 import { Button } from './ui/button'
 
 interface BookingCardProps {
-    booking: Booking
+    booking: Booking,
+    adminView?: boolean
 }
 
 const getStatusBadgeVariant = (status: string) => {
@@ -19,7 +22,7 @@ const getStatusBadgeVariant = (status: string) => {
     return <Badge variant="outline"><ClockFadingIcon /> Pending</Badge>
 }
 
-const BookingCard = ({ booking }: BookingCardProps) => {
+const BookingCard = ({ booking, adminView = false }: BookingCardProps) => {
     return (
         <Card>
             <CardHeader>
@@ -27,12 +30,17 @@ const BookingCard = ({ booking }: BookingCardProps) => {
                 <CardDescription>{booking.description}</CardDescription>
                 <CardAction>
                     {getStatusBadgeVariant(booking.status)}
-                    <Button variant="default" className='ml-5'>Edit Info</Button>
+                    {adminView ? (
+                        <Button size="sm" className='ml-5' onClick={() => {/* Implement action */ }}>
+                            Update Status
+                        </Button>) : (
+                        <Button size="sm" variant="secondary" className='ml-5'>Edit Info</Button>
+                    )}
                 </CardAction>
             </CardHeader>
             <CardContent>
-                <p className='text-[14px]'><strong>Phone:</strong> {booking.phone}</p>
-                <p className='text-[14px]'><strong>Address:</strong> {booking.address}</p>
+                <p className='text-sm'><strong>Phone:</strong> {booking.phone}</p>
+                <p className='text-sm'><strong>Address:</strong> {booking.address}</p>
             </CardContent>
         </Card>
     )
