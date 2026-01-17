@@ -69,7 +69,7 @@ export default function MapPicker({ onLocationSelect }: MapPickerProps) {
             },
             () => {
                 // Fallback to a default (e.g. Kathmandu since user is likely there)
-                setPosition([27.6881, 84.4330]);
+                setPosition([27.6881814, 84.432728]);
             }
         );
     }, []);

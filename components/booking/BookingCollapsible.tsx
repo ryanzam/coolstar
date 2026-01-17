@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronsUpDown } from "lucide-react";
+import { ChevronsUpDown, Mail, MapPinHouseIcon, Phone, User } from "lucide-react";
 import React, { useActionState, useEffect } from "react";
 import { Button } from "../ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/collapsible";
@@ -9,6 +9,7 @@ import { getStatusBadgeVariant } from "./BookingCard";
 import { updateBookingStatus } from "@/app/api/booking";
 import { toast } from "sonner";
 import { getDistance } from 'geolib';
+import GotoMapButton from "./GotoMapButton";
 
 interface BookingCardProps {
     booking: Booking,
@@ -22,7 +23,7 @@ const getDistanceBetween = (location: any) => {
 
     const distance = getDistance(
         { latitude: locationObj.lat, longitude: locationObj.lng },
-        { latitude: 27.6881848, longitude: 84.4327423 }
+        { latitude: 27.6881814, longitude: 84.432728 }
     );
 
     return (distance / 1000).toFixed(2);
@@ -70,12 +71,12 @@ const BookingCollapsible = ({ booking }: BookingCardProps) => {
             <CollapsibleContent className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                     <div className="border-y px-4 py-2 font-mono text-sm">
-                        <p className='text-sm'><strong>Name:</strong> {booking?.user?.name}</p>
-                        <p className='text-sm'><strong>Email:</strong> {booking?.user?.email}</p>
+                        <p className='flex  items-center gap-2 text-sm font-medium'><User size={16} />{booking?.user?.name}</p>
+                        <p className='flex  items-center gap-2 text-sm font-medium'><Mail size={16} />{booking?.user?.email}</p>
                     </div>
                     <div className="border-y px-4 py-2 font-mono text-sm">
-                        <p className='text-sm'><strong>Phone:</strong> {booking.phone}</p>
-                        <p className='text-sm'><strong>Address:</strong> {booking.address}</p>
+                        <p className='flex  items-center gap-2 text-sm font-medium'><Phone size={16} />{booking.phone}</p>
+                        <p className='flex  items-center gap-2 text-sm font-medium'><MapPinHouseIcon size={16} /> {booking.address}</p>
                     </div>
                     <div className="flex md:gap-3">
                         <form action={formAction}>
@@ -94,7 +95,7 @@ const BookingCollapsible = ({ booking }: BookingCardProps) => {
                 </div>
                 <div className="rounded-md border px-4 py-2 font-mono text-sm">
                     <span className="font-bold">Distance:</span> {getDistanceBetween(booking.location)} km(s)
-                    
+                    <GotoMapButton key={booking.id} location={booking.location} />
                 </div>
             </CollapsibleContent>
         </Collapsible>
