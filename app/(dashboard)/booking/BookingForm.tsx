@@ -2,6 +2,7 @@
 
 import { requireAuth } from '@/app/api/auth'
 import { bookService } from '@/app/api/booking'
+import MapPicker from '@/components/map/MapPicker'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -9,9 +10,8 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@radix-ui/react-label'
 import { SendHorizonal } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import React, { useActionState, useEffect } from 'react'
+import React, { useActionState, useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
-
 interface BookingFormProps {
     user: any
 }
@@ -25,8 +25,10 @@ const serviceTypes = [
 
 const BookingForm = ({ user }: BookingFormProps) => {
 
+
     const router = useRouter()
     const [state, formAction, isPending] = useActionState(bookService, null);
+    const [location, setLocation] = useState({ lat: 0, lng: 0, address: '' });
 
     useEffect(() => {
         if (state?.success) {
@@ -34,6 +36,16 @@ const BookingForm = ({ user }: BookingFormProps) => {
             router.push("/dashboard")
         }
     }, [state?.success])
+
+
+    const handleLocationSelect = async (lat: number, lng: number, address: string) => {
+        try {
+            setLocation({ lat, lng, address });
+            toast.success("Location selected.");
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     return (
         <section className="py-16">
@@ -47,6 +59,7 @@ const BookingForm = ({ user }: BookingFormProps) => {
 
                 <form action={formAction}>
                     <input type="hidden" name="userId" value={user?.id} />
+                    <input type="hidden" name="location" value={JSON.stringify(location)} />
                     <Card>
                         <CardContent className="space-y-4">
                             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
@@ -92,6 +105,11 @@ const BookingForm = ({ user }: BookingFormProps) => {
                                     placeholder="Synergy chowk"
                                     required
                                 />
+                            </div>
+
+                            <div className='flex flex-col gap-3 pt-2'>
+                                <p className=''>Pinpoint address and click <strong>Confirm Location</strong></p>
+                                <MapPicker onLocationSelect={handleLocationSelect} />
                             </div>
 
                             <Button type='submit' className='w-full cursor-pointer' size={'lg'} disabled={isPending}>Book a Service <SendHorizonal /></Button>

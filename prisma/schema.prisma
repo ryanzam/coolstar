@@ -47,6 +47,7 @@ model Booking {
   description String
   phone       String        @unique
   address     String
+  location    Json?
   status      BookingStatus @default(PENDING)
   created     DateTime      @default(now())
   updated     DateTime      @updatedAt

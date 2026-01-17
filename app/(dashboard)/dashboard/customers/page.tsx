@@ -15,7 +15,7 @@ const DashboardCustomersPage = async ({ user }: DashboardCustomersPageProps) => 
       <section className="py-16">
         <div className="container mx-auto px-4">
           {bookings?.data && bookings?.data?.length > 0 ? (
-            <div>
+            <div className="flex gap-3 flex-col">
               {bookings.data.map((booking: any) => (
                 <BookingCard key={booking.id} booking={booking} />
               ))}

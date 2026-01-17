@@ -12,6 +12,7 @@ const bookingSchema = z.object({
     phone: z.string("Phone number is required"),
     address: z.string('Address is required'),
     userId: z.string().optional(),
+    location: z.json().optional()
 });
 
 export async function bookService(prevState: any, formData: FormData) {
@@ -22,6 +23,7 @@ export async function bookService(prevState: any, formData: FormData) {
             phone: formData.get('phone') as string,
             address: formData.get('address') as string,
             userId: formData.get('userId') as string,
+            location: formData.get('location') as string,
         };
 
         const validateData = bookingSchema.parse(formdata)
@@ -34,6 +36,7 @@ export async function bookService(prevState: any, formData: FormData) {
                 address: validateData.address,
                 status: 'PENDING',
                 userId: validateData.userId || '',
+                location: validateData.location || null,
             }
         })
 
@@ -67,7 +70,23 @@ export async function getUserBookings(userId: string) {
             },
             orderBy: {
                 created: 'desc'
-            }
+            },
+            select: {
+                id: true,
+                serviceType: true,
+                description: true,
+                address: true,
+                phone: true,
+                location: true,
+                status: true,
+                created: true,
+                user: {
+                    select: {
+                        name: true,
+                        email: true,
+                    }
+                }
+            },
         });
 
         return {
@@ -95,6 +114,7 @@ export async function getAllBookings() {
                 description: true,
                 address: true,
                 phone: true,
+                location: true,
                 status: true,
                 created: true,
                 user: {
