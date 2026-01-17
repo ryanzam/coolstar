@@ -9,10 +9,15 @@ import { useActionState, useEffect } from 'react'
 import { updateBookingStatus } from '@/app/api/booking'
 import { toast } from 'sonner'
 
+type ExtendedBooking = Booking & {
+    user: {
+        name: string
+        email: string
+    }
+}
 interface BookingCardProps {
-    booking: Booking,
+    booking: ExtendedBooking,
     adminView?: boolean
-    //bookingStatusUpdate: (status: BookingStatus, bookingId: string) => void
 }
 
 export const getStatusBadgeVariant = (status: string) => {
