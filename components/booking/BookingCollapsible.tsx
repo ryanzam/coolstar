@@ -52,13 +52,13 @@ const BookingCollapsible = ({ booking }: BookingCardProps) => {
             className="flex flex-col gap-5 border rounded-md shadow-md"
             style={{ backgroundColor: "white" }}
         >
-            <div className="flex items-center justify-between gap-4 px-4">
-                <div className="">
+            <div className="flex items-center justify-between gap-4 px-4 pt-3">
+                <div className="pt-5">
                     <span className="font-semibold">{booking.serviceType} {" "}</span>
                     <span>{getStatusBadgeVariant(booking.status)}</span>
                 </div>
                 <CollapsibleTrigger asChild>
-                    <Button variant="ghost" size="icon" className="size-8">
+                    <Button variant="ghost" size="icon" className="size-28 px-2">
                         <ChevronsUpDown />
                         <span className="sr-only">Toggle</span>
                     </Button>
@@ -68,7 +68,7 @@ const BookingCollapsible = ({ booking }: BookingCardProps) => {
                 <span className="text-sm font-medium text-gray-500">{booking.created.toDateString()} </span>
             </div>
             <CollapsibleContent className="flex flex-col gap-2">
-                <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center justify-between">
                     <div className="border-y px-4 py-2 font-mono text-sm">
                         <p className='text-sm'><strong>Name:</strong> {booking?.user?.name}</p>
                         <p className='text-sm'><strong>Email:</strong> {booking?.user?.email}</p>
@@ -77,23 +77,24 @@ const BookingCollapsible = ({ booking }: BookingCardProps) => {
                         <p className='text-sm'><strong>Phone:</strong> {booking.phone}</p>
                         <p className='text-sm'><strong>Address:</strong> {booking.address}</p>
                     </div>
-                    <div>
+                    <div className="flex md:gap-3">
                         <form action={formAction}>
                             <input type="hidden" name="bookingId" value={booking.id} />
-                            <select name="bookingStatus" defaultValue={booking.status} id="booking-status" className="border px-3 rounded-md text-sm py-1 font-bold">
+                            <select name="bookingStatus" defaultValue={booking.status} id="booking-status" className="border md:px-3 rounded-md text-sm py-1 font-bold">
                                 <option value="PENDING"> Pending</option>
                                 <option value="CONFIRMED">Confirmed</option>
                                 <option value="COMPLETED">Completed</option>
                                 <option value="CANCELLED">Cancelled</option>
                             </select>
-                            <Button type="submit" size="sm" variant="secondary" className='ml-2' disabled={isPending}>
-                                {isPending ? 'Updating...' : 'Update Status'}
+                            <Button type="submit" size="sm" variant="secondary" className='md:ml-2' disabled={isPending}>
+                                {isPending ? 'Updating...' : 'Update'}
                             </Button>
                         </form>
                     </div>
                 </div>
                 <div className="rounded-md border px-4 py-2 font-mono text-sm">
                     <span className="font-bold">Distance:</span> {getDistanceBetween(booking.location)} km(s)
+                    
                 </div>
             </CollapsibleContent>
         </Collapsible>
