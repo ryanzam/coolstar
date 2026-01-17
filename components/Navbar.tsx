@@ -12,7 +12,7 @@ import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMe
 const navLinks = [
     { name: "Home", path: "/" },
     { name: "Services", path: "#services" },
-    { name: "Book Service", path: "/dashboard" },
+    { name: "Book Service", path: "/booking" },
     { name: "Contact", path: "#contact" },
 ];
 

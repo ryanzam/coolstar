@@ -49,13 +49,36 @@ const BookingForm = ({ user }: BookingFormProps) => {
                     <input type="hidden" name="userId" value={user?.id} />
                     <Card>
                         <CardContent className="space-y-4">
+                            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                                <div className='flex flex-col gap-2'>
+                                    <Label htmlFor="phone">Phone Number *</Label>
+                                    <Input
+                                        id="phone"
+                                        name="phone"
+                                        type='tel'
+                                        placeholder="9801234567"
+                                        required
+                                    />
+                                </div>
+
+                                <div className='flex flex-col gap-2'>
+                                    <Label htmlFor="serviceType">Service Type *</Label>
+                                    <select name="serviceType" id="" className='border p-2 ml-2'>
+                                        {serviceTypes.map((st, idx) => (
+                                            <option key={idx} value={st.value}>{st.label}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+
                             <div className='flex flex-col gap-2'>
-                                <Label htmlFor="phone">Phone Number *</Label>
-                                <Input
-                                    id="phone"
-                                    name="phone"
-                                    type='tel'
-                                    placeholder="9801234567"
+                                <Label htmlFor="description">Description *</Label>
+                                <Textarea
+                                    id="description"
+                                    name="description"
+                                    minLength={10}
+                                    placeholder="Describe what you want. Installation, Service, Repairs.."
+                                    rows={6}
                                     required
                                 />
                             </div>
@@ -67,27 +90,6 @@ const BookingForm = ({ user }: BookingFormProps) => {
                                     name="address"
                                     type='text'
                                     placeholder="Synergy chowk"
-                                    required
-                                />
-                            </div>
-
-                            <div className='flex flex-col gap-2'>
-                                <Label htmlFor="serviceType">Service Type *</Label>
-                                <select name="serviceType" id="" className='border p-2 ml-2'>
-                                    {serviceTypes.map((st, idx) => (
-                                        <option key={idx} value={st.value}>{st.label}</option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div className='flex flex-col gap-2'>
-                                <Label htmlFor="description">Description *</Label>
-                                <Textarea
-                                    id="description"
-                                    name="description"
-                                    minLength={10}
-                                    placeholder="Describe what you want. Installation, Service, Repairs.."
-                                    rows={6}
                                     required
                                 />
                             </div>
