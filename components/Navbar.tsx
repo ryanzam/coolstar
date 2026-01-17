@@ -103,7 +103,7 @@ const Navbar = () => {
                                     <span>986-5400200</span>
                                 </a>
                                 <Button asChild variant="default" size="sm">
-                                    <Link href="/signup">Sign Up</Link>
+                                    <Link href="/signin">Sign In</Link>
                                 </Button>
                             </>
                         }
@@ -125,39 +125,58 @@ const Navbar = () => {
             </div >
 
             {/* Mobile Navigation */}
-            < div
-                className={
-                    cn(
-                        "lg:hidden overflow-hidden transition-all duration-300",
-                        isOpen ? "max-h-96 border-t border-border" : "max-h-0"
-                    )
-                }
-            >
-                <div className="container mx-auto px-4 py-4 space-y-2">
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.path}
-                            href={link.path}
-                            onClick={() => setIsOpen(false)}
-                            className={cn(
-                                "block px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300",
-                                location === link.path
-                                    ? "bg-primary/10 text-primary"
-                                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                            )}
-                        >
-                            {link.name}
-                        </Link>
-                    ))}
-                    <div className="pt-4 border-t border-border">
-                        <Button asChild variant="default" className="w-full">
-                            <Link href="/booking" onClick={() => setIsOpen(false)}>
-                                Book Now
-                            </Link>
-                        </Button>
+            {user ? (
+                < div
+                    className={
+                        cn(
+                            "lg:hidden overflow-hidden transition-all duration-300",
+                            isOpen ? "max-h-96 border-t border-border" : "max-h-0"
+                        )
+                    }
+                >
+                    <div className="flex flex-col gap-3 text-center" style={{ padding: "10px" }}>
+                        <h3>Welcome, {user.name}</h3>
+                        <Link href="/profile" className="hover:bg-accent cursor-pointer py-2">Profile</Link>
+                        <Link href="/dashboard" className="hover:bg-accent cursor-pointer py-2">Dashboard</Link>
+                        <Button onClick={onLogout} className="cursor-pointer">Logout</Button>
                     </div>
                 </div>
-            </div >
+            ) : (
+                < div
+                    className={
+                        cn(
+                            "lg:hidden overflow-hidden transition-all duration-300",
+                            isOpen ? "max-h-96 border-t border-border" : "max-h-0"
+                        )
+                    }
+                >
+                    <div className="container mx-auto px-4 py-4 space-y-2">
+                        {navLinks.map((link) => (
+                            <Link
+                                key={link.path}
+                                href={link.path}
+                                onClick={() => setIsOpen(false)}
+                                className={cn(
+                                    "block px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300",
+                                    location === link.path
+                                        ? "bg-primary/10 text-primary"
+                                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                                )}
+                            >
+                                {link.name}
+                            </Link>
+                        ))}
+                        <div className="pt-4 border-t border-border">
+                            <Button asChild variant="default" className="w-full">
+                                <Link href="/booking" onClick={() => setIsOpen(false)}>
+                                    Book Now
+                                </Link>
+                            </Button>
+                        </div>
+                    </div>
+                </div >
+            )
+            }
         </nav >
     )
 }

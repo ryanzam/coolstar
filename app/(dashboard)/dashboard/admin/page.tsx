@@ -1,5 +1,6 @@
 import { getAllBookings, updateBookingStatus } from '@/app/api/booking';
 import BookingCard from '@/components/booking/BookingCard';
+import BookingStats from '@/components/booking/BookingStats';
 import { Alert, AlertTitle } from '@/components/ui/alert';
 import { BookingStatus } from '@prisma/client';
 import { ClockFadingIcon } from 'lucide-react';
@@ -11,20 +12,13 @@ interface DashboardAdminPageProps {
 const DashboardAdminPage = async ({ user }: DashboardAdminPageProps) => {
 
     const { data: bookings } = await getAllBookings();
-
-    const pendingBookings = bookings?.filter((booking: any) => booking.status === BookingStatus.PENDING);
-
+    
     return (
         <main className="pt-20 min-h-screen frost-bg">
             <section className="py-16">
                 <div className="container mx-auto px-4">
 
-                    <Alert className='mb-3 text-white bg-secondary'>
-                        <ClockFadingIcon />
-                        <AlertTitle>
-                            {`${pendingBookings?.length} pending booking(s).`}
-                        </AlertTitle>
-                    </Alert>
+                    <BookingStats bookings={bookings} />
 
                     {bookings && bookings?.length > 0 ? (
                         <div className='grid grid-cols-1 gap-2'>
