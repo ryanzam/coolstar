@@ -15,7 +15,7 @@ interface BookingCardProps {
     //bookingStatusUpdate: (status: BookingStatus, bookingId: string) => void
 }
 
-const getStatusBadgeVariant = (status: string) => {
+export const getStatusBadgeVariant = (status: string) => {
     if (status === BookingStatus.CONFIRMED)
         return <Badge variant="default"><ClockCheckIcon /> Confirmed</Badge>
     if (status === BookingStatus.CANCELLED)

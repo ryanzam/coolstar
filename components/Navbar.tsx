@@ -168,8 +168,8 @@ const Navbar = () => {
                         ))}
                         <div className="pt-4 border-t border-border">
                             <Button asChild variant="default" className="w-full">
-                                <Link href="/booking" onClick={() => setIsOpen(false)}>
-                                    Book Now
+                                <Link href="/signin" onClick={() => setIsOpen(false)}>
+                                    Sign in now
                                 </Link>
                             </Button>
                         </div>

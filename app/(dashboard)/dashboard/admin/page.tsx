@@ -1,5 +1,6 @@
 import { getAllBookings, updateBookingStatus } from '@/app/api/booking';
 import BookingCard from '@/components/booking/BookingCard';
+import BookingCollapsible from '@/components/booking/BookingCollapsible';
 import BookingStats from '@/components/booking/BookingStats';
 import { Alert, AlertTitle } from '@/components/ui/alert';
 import { BookingStatus } from '@prisma/client';
@@ -23,7 +24,7 @@ const DashboardAdminPage = async ({ user }: DashboardAdminPageProps) => {
                     {bookings && bookings?.length > 0 ? (
                         <div className='grid grid-cols-1 gap-2'>
                             {bookings.map((booking: any) => (
-                                <BookingCard key={booking.id} booking={booking} adminView={true} />
+                                <BookingCollapsible key={booking.id} booking={booking} />
                             ))}
                         </div>
                     ) : (
