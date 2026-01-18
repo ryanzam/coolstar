@@ -50,34 +50,41 @@ const BookingCollapsible = ({ booking }: BookingCardProps) => {
         <Collapsible
             open={isOpen}
             onOpenChange={setIsOpen}
-            className="flex flex-col gap-5 border rounded-md shadow-md"
+            className="flex flex-col gap-5 border rounded-md shadow-md py-2"
             style={{ backgroundColor: "white" }}
         >
-            <div className="flex items-center justify-between gap-4 px-4 pt-3">
-                <div className="pt-5">
+            <div className="flex items-center justify-between gap-4 px-4">
+                <div className="">
                     <span className="font-semibold">{booking.serviceType} {" "}</span>
                     <span>{getStatusBadgeVariant(booking.status)}</span>
                 </div>
                 <CollapsibleTrigger asChild>
                     <Button variant="ghost" size="icon" className="size-28 px-2">
                         <ChevronsUpDown />
-                        <span className="sr-only">Toggle</span>
+                        <span>Toggle</span>
                     </Button>
                 </CollapsibleTrigger>
             </div>
-            <div className="rounded-md px-4 py-2 font-mono text-sm">
+            <div className="rounded-md px-4 font-mono text-sm">
                 <span className="text-sm font-medium text-gray-500">{booking.created.toDateString()} </span>
             </div>
             <CollapsibleContent className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
-                    <div className="border-y px-4 py-2 font-mono text-sm">
-                        <p className='flex  items-center gap-2 text-sm font-medium'><User size={16} />{booking?.user?.name}</p>
+                    <div className="border-y px-2 font-mono text-sm">
+                        <p className='flex items-center gap-2 text-sm font-medium'><User size={16} />{booking?.user?.name}</p>
                         <p className='flex  items-center gap-2 text-sm font-medium'><Mail size={16} />{booking?.user?.email}</p>
                     </div>
-                    <div className="border-y px-4 py-2 font-mono text-sm">
-                        <p className='flex  items-center gap-2 text-sm font-medium'><Phone size={16} />{booking.phone}</p>
-                        <p className='flex  items-center gap-2 text-sm font-medium'><MapPinHouseIcon size={16} /> {booking.address}</p>
+                    <div className="border-y px-2 font-mono text-sm">
+                        <p className='flex items-center gap-2 text-sm font-medium'><Phone size={16} />{booking.phone}</p>
+                        <p className='flex items-center gap-2 text-sm font-medium'><MapPinHouseIcon size={16} /> {booking.address}</p>
                     </div>
+                </div>
+                <div className="rounded-md border px-2 py-2 font-mono text-sm flex items-center justify-between">
+                    <div>
+                        <span className="font-bold">Distance:</span> {getDistanceBetween(booking.location)} km(s)
+                        <GotoMapButton key={booking.id} location={booking.location} />
+                    </div>
+
                     <div className="flex md:gap-3">
                         <form action={formAction}>
                             <input type="hidden" name="bookingId" value={booking.id} />
@@ -92,10 +99,6 @@ const BookingCollapsible = ({ booking }: BookingCardProps) => {
                             </Button>
                         </form>
                     </div>
-                </div>
-                <div className="rounded-md border px-4 py-2 font-mono text-sm">
-                    <span className="font-bold">Distance:</span> {getDistanceBetween(booking.location)} km(s)
-                    <GotoMapButton key={booking.id} location={booking.location} />
                 </div>
             </CollapsibleContent>
         </Collapsible>
