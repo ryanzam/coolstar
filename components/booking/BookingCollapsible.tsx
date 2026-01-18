@@ -12,7 +12,7 @@ import { getDistance } from 'geolib';
 import GotoMapButton from "./GotoMapButton";
 
 interface BookingCardProps {
-    booking: Booking,
+    booking: Booking & { user?: { name: string | null; email: string } },
 }
 
 const getDistanceBetween = (location: any) => {

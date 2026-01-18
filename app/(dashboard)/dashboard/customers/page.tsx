@@ -1,13 +1,11 @@
 import { getUserBookings } from "@/app/api/booking";
 import BookingHeader from "../../../../components/booking/BookingHeader"
 import BookingCard from "@/components/booking/BookingCard";
+import { requireAuth } from "@/app/api/auth";
 
-interface DashboardCustomersPageProps {
-  user: any
-}
+const DashboardCustomersPage = async () => {
 
-const DashboardCustomersPage = async ({ user }: DashboardCustomersPageProps) => {
-
+  const { user } = await requireAuth();
   const bookings = await getUserBookings(user.id);
 
   return (

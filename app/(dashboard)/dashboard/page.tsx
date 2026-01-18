@@ -15,6 +15,6 @@ const DashboardPage = async () => {
         return <DashboardAdminPage user={user} />;
     }
 
-    return <DashboardCustomersPage user={user}/>
+    return <DashboardCustomersPage />
 }
 export default DashboardPage

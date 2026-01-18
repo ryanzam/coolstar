@@ -10,9 +10,9 @@ import { updateBookingStatus } from '@/app/api/booking'
 import { toast } from 'sonner'
 
 type ExtendedBooking = Booking & {
-    user: {
-        name: string
-        email: string
+    user?: {
+        name?: string
+        email?: string
     }
 }
 interface BookingCardProps {
