@@ -141,7 +141,7 @@ export async function logoutUser() {
 export async function requireAuth() {
     const session = await auth();
     if (!session?.user) {
-        return null
+        throw new Error('Unauthorized');
     }
     return session;
 }
@@ -149,7 +149,7 @@ export async function requireAuth() {
 export async function requireAdmin() {
     const session = await requireAuth();
 
-    if (session?.user.role !== 'ADMIN') {
+    if (session.user.role !== 'ADMIN') {
         throw new Error('Admin access required');
     }
     return session;

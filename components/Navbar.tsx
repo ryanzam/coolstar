@@ -2,14 +2,12 @@
 
 import { cn } from "@/lib/utils";
 import { Phone, X, Menu } from "lucide-react";
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import Link from 'next/link'
 import { usePathname, useRouter } from "next/navigation";
-import { logoutUser } from "@/app/api/auth";
+import { logoutUser, requireAuth } from "@/app/api/auth";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "./ui/navigation-menu";
-import { useSession } from 'next-auth/react'
-import { toast } from "sonner";
 
 const navLinks = [
     { name: "Home", path: "/" },
@@ -21,14 +19,28 @@ const navLinks = [
 const Navbar = () => {
 
     const [isOpen, setIsOpen] = useState(false);
+    const [user, setUser] = useState<any>(null);
 
     const location = usePathname();
     const router = useRouter();
-    const { data: session, status } = useSession();
+
+
+    useEffect(() => {
+        requireAuth().then((session) => {
+            setUser(session?.user);
+        }).catch(() => {
+            setUser(null);
+        });
+    }, [])
+
+
+    const onCancel = () => {
+        router.back();
+    }
 
     const onLogout = async () => {
         await logoutUser();
-        toast.success("Logged out successfully.")
+        setUser(null);
         router.push("/");
     }
 
@@ -65,13 +77,13 @@ const Navbar = () => {
 
                     {/* CTA Button */}
                     <div className="hidden lg:flex items-center gap-4">
-                        {session ?
+                        {user ?
                             <>
                                 <NavigationMenu>
                                     <NavigationMenuList>
                                         <NavigationMenuItem>
                                             <NavigationMenuTrigger>
-                                                {session.user.name}
+                                                {user.name}
                                             </NavigationMenuTrigger>
                                             <NavigationMenuContent>
                                                 <NavigationMenuLink className="cursor-pointer">Profile</NavigationMenuLink>
@@ -113,7 +125,7 @@ const Navbar = () => {
             </div >
 
             {/* Mobile Navigation */}
-            {session ? (
+            {user ? (
                 < div
                     className={
                         cn(
@@ -123,7 +135,7 @@ const Navbar = () => {
                     }
                 >
                     <div className="flex flex-col gap-3 text-center" style={{ padding: "10px" }}>
-                        <h3>Welcome, {session.user.name}</h3>
+                        <h3>Welcome, {user.name}</h3>
                         <Link href="/profile" className="hover:bg-accent cursor-pointer py-2">Profile</Link>
                         <Link href="/dashboard" className="hover:bg-accent cursor-pointer py-2">Dashboard</Link>
                         <Button onClick={onLogout} className="cursor-pointer">Logout</Button>

@@ -1,16 +1,9 @@
 import { requireAuth } from '@/app/api/auth'
 import BookingForm from './BookingForm'
-import { redirect } from 'next/navigation';
 
 const BookingsPage = async () => {
 
-    const session = await requireAuth()
-
-    if (!session || session?.user) {
-        redirect('/signin');
-    }
-
-    const { user } = session
+    const { user } = await requireAuth()
 
     return (
         <main className="pt-20 min-h-screen frost-bg">
@@ -36,7 +29,7 @@ const BookingsPage = async () => {
             {/* Form Section */}
             <section >
                 <div className="container mx-auto px-4">
-                    <BookingForm user={user} />
+                    <BookingForm user={user}/>
                 </div>
             </section>
         </main>
