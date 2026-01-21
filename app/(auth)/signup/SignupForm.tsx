@@ -4,7 +4,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-import { LogIn } from 'lucide-react'
 import { useActionState, useEffect } from 'react'
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
@@ -63,6 +62,10 @@ const SignupForm = () => {
                                 required
                             />
                         </div>
+                        <p className="text-xs text-gray-500 mt-1">
+                            Must be at least 8 characters
+                        </p>
+
 
                         <Button type='submit' className='w-full cursor-pointer' size={'lg'} disabled={isPending}>Register</Button>
 
