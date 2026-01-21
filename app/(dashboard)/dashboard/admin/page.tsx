@@ -1,11 +1,7 @@
-import { getAllBookings, updateBookingStatus } from '@/app/api/booking';
-import BookingCard from '@/components/booking/BookingCard';
+import { getAllBookings } from '@/app/api/booking';
 import BookingCollapsible from '@/components/booking/BookingCollapsible';
 import BookingStats from '@/components/booking/BookingStats';
-import { Alert, AlertTitle } from '@/components/ui/alert';
-import { BookingStatus } from '@prisma/client';
-import { ClockFadingIcon } from 'lucide-react';
-import { refresh } from 'next/cache'
+
 interface DashboardAdminPageProps {
     user: any
 }
@@ -13,7 +9,7 @@ interface DashboardAdminPageProps {
 const DashboardAdminPage = async ({ user }: DashboardAdminPageProps) => {
 
     const { data: bookings } = await getAllBookings();
-    
+
     return (
         <main className="pt-20 min-h-screen frost-bg">
             <section className="py-16">

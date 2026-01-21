@@ -5,14 +5,14 @@ import { redirect } from 'next/navigation';
 
 const DashboardPage = async () => {
 
-    const { user } = await requireAuth();
+    const session = await requireAuth();
 
-    if (!user) {
+    if (!session?.user) {
         redirect('/signin');
     }
 
-    if (user.role === 'ADMIN') {
-        return <DashboardAdminPage user={user} />;
+    if (session.user.role === 'ADMIN') {
+        return <DashboardAdminPage user={session.user} />;
     }
 
     return <DashboardCustomersPage />

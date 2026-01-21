@@ -2,11 +2,17 @@ import { getUserBookings } from "@/app/api/booking";
 import BookingHeader from "../../../../components/booking/BookingHeader"
 import BookingCard from "@/components/booking/BookingCard";
 import { requireAuth } from "@/app/api/auth";
+import { redirect } from "next/navigation";
 
 const DashboardCustomersPage = async () => {
 
-  const { user } = await requireAuth();
-  const bookings = await getUserBookings(user.id);
+  const session = await requireAuth();
+
+  if (!session?.user) {
+    redirect("/signin")
+  }
+  
+  const bookings = await getUserBookings(session.user.id);
 
   return (
     <main className="pt-20 min-h-screen frost-bg">
