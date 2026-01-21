@@ -19,7 +19,7 @@ const SigninForm = () => {
         if (state?.success) {
             toast.success("Signed in successfully!");
             router.push("/dashboard")
-            router.refresh();
+            window.location.reload();
         }
     }, [state?.success])
 
