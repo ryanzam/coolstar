@@ -34,7 +34,7 @@ const Hero = () => {
                 <div className="max-w-3xl">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20 text-primary-foreground text-sm mb-8 animate-fade-up">
                         <Snowflake className="w-4 h-4" />
-                        <span>Trusted by 1000+ customers across Chitwan</span>
+                        <span>Trusted by 50+ customers across Chitwan</span>
                     </div>
 
                     <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-bold text-primary-foreground mb-6 animate-fade-up" style={{ animationDelay: "100ms" }}>
@@ -54,7 +54,7 @@ const Hero = () => {
                     <div className="flex flex-col sm:flex-row gap-4 animate-fade-up" style={{ animationDelay: "300ms" }}>
                         <Button asChild variant="default" size="lg">
                             <Link href="/booking" className="gap-3">
-                                Book Appointment
+                                Book a Service
                                 <ArrowRight className="w-5 h-5" />
                             </Link>
                         </Button>

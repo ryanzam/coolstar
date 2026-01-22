@@ -23,7 +23,7 @@ const Cta = () => {
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Button asChild variant="default" size="lg">
                             <Link href="/booking" className="gap-3">
-                                Book Appointment
+                                Book a Service
                                 <ArrowRight className="w-5 h-5" />
                             </Link>
                         </Button>

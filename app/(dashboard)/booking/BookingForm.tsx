@@ -25,7 +25,6 @@ const serviceTypes = [
 
 const BookingForm = ({ user }: BookingFormProps) => {
 
-
     const router = useRouter()
     const [state, formAction, isPending] = useActionState(bookService, null);
     const [location, setLocation] = useState({ lat: 0, lng: 0, address: '' });

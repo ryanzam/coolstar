@@ -50,7 +50,7 @@ const BookingCard = ({ booking, adminView = false }: BookingCardProps) => {
                 <CardTitle>{booking.serviceType}  {getStatusBadgeVariant(booking.status)}</CardTitle>
                 <CardDescription>{booking.description}</CardDescription>
                 <CardAction>
-                    {adminView ? (
+                    {adminView && (
                         <form action={formAction}>
                             <input type="hidden" name="bookingId" value={booking.id} />
                             <select name="bookingStatus" defaultValue={booking.status} id="booking-status" className="border px-3 rounded-md text-sm py-1 font-bold">
@@ -63,8 +63,6 @@ const BookingCard = ({ booking, adminView = false }: BookingCardProps) => {
                                 {isPending ? 'Updating...' : 'Update Status'}
                             </Button>
                         </form>
-                    ) : (
-                        <Button size="sm" variant="secondary" className='ml-5'>Edit Info</Button>
                     )}
                 </CardAction>
             </CardHeader>

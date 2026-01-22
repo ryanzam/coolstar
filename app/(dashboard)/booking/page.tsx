@@ -6,9 +6,14 @@ import { LayoutDashboardIcon } from 'lucide-react'
 
 const BookingsPage = async () => {
 
-    const { user } = await requireAuth()
+    let user: any;
+    try {
+        user = await requireAuth()
+    } catch (error) {
+        redirect("/signin")
+    }
 
-    if (user.role === "ADMIN") {
+    if (user?.role === "ADMIN") {
         return (
             <main className="pt-20 min-h-screen frost-bg">
                 {/* Header */}

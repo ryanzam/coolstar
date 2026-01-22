@@ -12,7 +12,6 @@ import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMe
 const navLinks = [
     { name: "Home", path: "/" },
     { name: "Services", path: "#services" },
-    { name: "Book Service", path: "/booking" },
     { name: "Contact", path: "#contact" },
 ];
 
@@ -24,7 +23,6 @@ const Navbar = () => {
     const location = usePathname();
     const router = useRouter();
 
-
     useEffect(() => {
         requireAuth().then((session) => {
             setUser(session?.user);
@@ -33,16 +31,12 @@ const Navbar = () => {
         });
     }, [])
 
-
-    const onCancel = () => {
-        router.back();
-    }
-
     const onLogout = async () => {
         await logoutUser();
         setUser(null);
         router.push("/");
     }
+    console.log(user)
 
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 glass-card">
@@ -85,9 +79,10 @@ const Navbar = () => {
                                             <NavigationMenuTrigger>
                                                 {user.name}
                                             </NavigationMenuTrigger>
-                                            <NavigationMenuContent>
+                                            <NavigationMenuContent className="w-100">
                                                 <NavigationMenuLink className="cursor-pointer">Profile</NavigationMenuLink>
                                                 <NavigationMenuLink href="/dashboard" className="cursor-pointer">Dashboard</NavigationMenuLink>
+                                                {user.role === "CUSTOMER" && <NavigationMenuLink href="/booking" className="cursor-pointer">Booking</NavigationMenuLink>}
                                                 <NavigationMenuLink onClick={onLogout} className="cursor-pointer">Logout</NavigationMenuLink>
                                             </NavigationMenuContent>
                                         </NavigationMenuItem>
@@ -138,6 +133,7 @@ const Navbar = () => {
                         <h3>Welcome, {user.name}</h3>
                         <Link href="/profile" className="hover:bg-accent cursor-pointer py-2">Profile</Link>
                         <Link href="/dashboard" className="hover:bg-accent cursor-pointer py-2">Dashboard</Link>
+                        {user?.role === "CUSTOMER" && <Link href="/booking" className="hover:bg-accent cursor-pointer py-2">Book a Service</Link>}
                         <Button onClick={onLogout} className="cursor-pointer">Logout</Button>
                     </div>
                 </div>

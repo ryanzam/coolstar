@@ -5,7 +5,12 @@ import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle }
 import { PlusCircleIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
-const BookingHeader = () => {
+interface BookingHeaderProps {
+    title?: string
+    description?: string
+}
+
+const BookingHeader = ({ title = "No Bookings.", description = "You don't have any bookings yet." }: BookingHeaderProps) => {
 
     const router = useRouter();
 
@@ -13,8 +18,8 @@ const BookingHeader = () => {
         <Card>
             <CardContent>
                 <CardHeader>
-                    <CardTitle>No Bookings.</CardTitle>
-                    <CardDescription>You don't have any bookings yet.</CardDescription>
+                    <CardTitle>{title}</CardTitle>
+                    <CardDescription>{description}</CardDescription>
 
                     <CardAction>
                         <Button variant="secondary" onClick={() => router.push("/booking")} className='cursor-pointer'>
