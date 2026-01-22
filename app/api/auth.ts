@@ -4,6 +4,7 @@ import { auth, signIn, signOut } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import z from "zod";
 
 // schemas for auth actions
@@ -87,8 +88,6 @@ export async function loginUser(prevState: any, formData: FormData) {
             password: validateData.password,
         });
 
-        revalidatePath('/dashboard');
-
         if (result?.error) {
             return {
                 success: false,
@@ -96,10 +95,6 @@ export async function loginUser(prevState: any, formData: FormData) {
             }
         }
 
-        return {
-            success: true,
-            message: "Sign in successful.",
-        }
     } catch (error) {
         console.error('Login user error:', error);
 
@@ -115,6 +110,9 @@ export async function loginUser(prevState: any, formData: FormData) {
             error: error instanceof Error ? error.message : 'Failed to sign in'
         }
     }
+
+    revalidatePath('/dashboard');
+    redirect("/dashboard")
 }
 
 export async function logoutUser() {

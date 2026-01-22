@@ -6,22 +6,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 import { LogIn } from 'lucide-react'
-import { useActionState, useEffect } from 'react'
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
+import { useActionState } from 'react'
 
 const SigninForm = () => {
 
-    const router = useRouter();
     const [state, formAction, isPending] = useActionState(loginUser, null);
-
-    useEffect(() => {
-        if (state?.success) {
-            toast.success("Signed in successfully!");
-            router.push("/dashboard")
-            router.refresh()
-        }
-    }, [state?.success])
 
     return (
         <>

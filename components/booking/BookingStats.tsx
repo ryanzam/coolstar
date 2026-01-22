@@ -10,7 +10,7 @@ const BookingStats = ({ bookings }: BookingStatsProps) => {
     const completedBookings = bookings?.filter(booking => booking.status === 'COMPLETED')?.length || 0;
 
     return (
-        <div className="flex flex-col md:flex-row md:flex-wrap gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-5">
             <div className="bg-card p-4 rounded-lg shadow text-center text-muted-foreground w-full">
                 <h3 className='text-lg font-medium'>Pending</h3>
                 <p className='text-2xl font-bold'>{pendingBookings}</p>
@@ -19,11 +19,11 @@ const BookingStats = ({ bookings }: BookingStatsProps) => {
                 <h3 className='text-lg font-medium'>Confirmed </h3>
                 <p className='text-2xl font-bold'>{confirmedBookings}</p>
             </div>
-            <div className="bg-card p-4 rounded-lg shadow text-center  w-full" style={{ color: "green"}}>
+            <div className="bg-card p-4 rounded-lg shadow text-center  w-full" style={{ color: "green" }}>
                 <h3 className='text-lg font-medium'>Completed</h3>
                 <p className='text-2xl font-bold'>{completedBookings}</p>
             </div>
-            <div className="bg-card p-4 rounded-lg shadow text-center text-red-800 w-full" style={{ color: "green"}}>
+            <div className="bg-card p-4 rounded-lg shadow text-center text-red-800 w-full" style={{ color: "green" }}>
                 <h3 className='text-lg font-medium'>Cancelled </h3>
                 <p className='text-2xl font-bold'>{cancelledBookings}</p>
             </div>

@@ -11,7 +11,7 @@ const DashboardAdminPage = async ({ user }: DashboardAdminPageProps) => {
     const { data: bookings } = await getAllBookings();
 
     return (
-        <main className="pt-20 min-h-screen frost-bg">
+        <main className="pt-10 min-h-screen frost-bg">
             <section className="py-16">
                 <div className="container mx-auto px-4">
 
