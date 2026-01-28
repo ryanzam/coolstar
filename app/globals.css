@@ -255,6 +255,10 @@ h6 {
   background-clip: text;
 }
 
+.map-form-container {
+  background-color: white;
+}
+
 /* Utility animations */
 .animate-float {
   animation: float 6s ease-in-out infinite;

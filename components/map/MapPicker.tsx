@@ -27,12 +27,16 @@ const SearchControl = dynamic(
 
                 const searchControl = new (GeoSearchControl as any)({
                     provider,
-                    style: 'bar',           // or 'button'
+                    style: 'button',           // or 'button'
                     autoComplete: true,
+                    position: "topright",
                     autoCompleteDelay: 250,
                     showMarker: false,      // we'll handle our own marker
                     retainZoomLevel: false,
-                    popupOpenOnClick: false,
+                    popupOpenOnClick: true,
+                    classNames: {
+                        container: "map-form-container"
+                    }
                 });
 
                 map.addControl(searchControl);
@@ -91,7 +95,7 @@ export default function MapPicker({ onLocationSelect }: MapPickerProps) {
     if (!position) return <div>Loading map...</div>;
 
     return (
-        <div style={{ height: '300px', width: '100%', position: 'relative' }}>
+        <div style={{ height: '400px', width: '100%', position: 'relative' }}>
             <MapContainer
                 center={position}
                 zoom={13}

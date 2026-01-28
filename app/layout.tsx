@@ -34,7 +34,17 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
-        <Toaster position="top-center" className="z-10" />
+
+        <Toaster
+          toastOptions={{
+            style: {
+              zIndex: 1000,
+              backgroundColor: "white"
+            },
+          }}
+          position="top-right"
+        />
+
       </body>
     </html>
   );

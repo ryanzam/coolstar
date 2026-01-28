@@ -40,7 +40,7 @@ const BookingForm = ({ user }: BookingFormProps) => {
     const handleLocationSelect = async (lat: number, lng: number, address: string) => {
         try {
             setLocation({ lat, lng, address });
-            toast.success("Location selected.");
+            //toast.success("Location selected.");
         } catch (err) {
             console.error(err);
         }
@@ -57,7 +57,7 @@ const BookingForm = ({ user }: BookingFormProps) => {
                 )}
 
                 <form action={formAction}>
-                    <input type="hidden" name="userId" value={user?.id} />
+                    <input type="hidden" name="userId" value={user?.user?.id} />
                     <input type="hidden" name="location" value={JSON.stringify(location)} />
                     <Card>
                         <CardContent className="space-y-4">
@@ -107,7 +107,8 @@ const BookingForm = ({ user }: BookingFormProps) => {
                             </div>
 
                             <div className='flex flex-col gap-3 pt-2'>
-                                <p className=''>Pinpoint address and click <strong>Confirm Location</strong></p>
+                                <p className=''>Pinpoint address and click <strong>Confirm Location</strong> </p>
+                                <p>{location.address !== "" && <mark>{location.address}</mark>}</p>
                                 <MapPicker onLocationSelect={handleLocationSelect} />
                             </div>
 
