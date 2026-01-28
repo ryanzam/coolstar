@@ -2,6 +2,8 @@ import { requireAuth } from '@/app/api/auth';
 import DashboardCustomersPage from './customers/page';
 import DashboardAdminPage from './admin/page';
 import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
+import Loading from '@/components/loading/loading';
 
 const DashboardPage = async () => {
 
@@ -12,9 +14,13 @@ const DashboardPage = async () => {
     }
 
     if (session.user.role === 'ADMIN') {
-        return <DashboardAdminPage user={session.user} />;
+        return <Suspense fallback={<Loading />}>
+            <DashboardAdminPage user={session.user} />
+        </Suspense>;
     }
 
-    return <DashboardCustomersPage />
+    return <Suspense fallback={<Loading />}>
+        <DashboardCustomersPage />
+    </Suspense>
 }
 export default DashboardPage

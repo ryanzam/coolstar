@@ -1,7 +1,6 @@
 import { getAllBookings } from '@/app/api/booking';
 import BookingCollapsible from '@/components/booking/BookingCollapsible';
 import BookingStats from '@/components/booking/BookingStats';
-
 interface DashboardAdminPageProps {
     user: any
 }
@@ -30,7 +29,6 @@ const DashboardAdminPage = async ({ user }: DashboardAdminPageProps) => {
         <main className="pt-10 min-h-screen frost-bg">
             <section className="py-16">
                 <div className="container mx-auto px-4">
-
                     <BookingStats bookings={bookings} />
 
                     {bookings && bookings?.length > 0 ? (
