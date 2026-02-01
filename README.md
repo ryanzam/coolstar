@@ -71,6 +71,12 @@ To use this project, follow these steps:
 ```
 
 ## 📸 Screenshots
+<img width="500" height="300" alt="cs1" src="https://github.com/user-attachments/assets/8093ee5a-db6d-4922-9ca5-335e1f9016dc" />
+
+<img width="500" height="300" alt="cs2" src="https://github.com/user-attachments/assets/0eac163a-6743-4fd9-b93f-70df5eac0d78" />
+
+
+
 
 ## 🤝 Contributing
 To contribute to this project, please follow these steps:
