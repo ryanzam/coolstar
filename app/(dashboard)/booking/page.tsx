@@ -1,17 +1,11 @@
-import { requireAuth } from '@/app/api/auth'
-import BookingForm from './BookingForm'
-import { redirect } from 'next/navigation'
-import Link from 'next/link'
-import { LayoutDashboardIcon } from 'lucide-react'
+import { requireAuth } from "@/app/api/auth";
+import BookingForm from "./BookingForm";
+import { redirect } from "next/navigation";
+import Link from "next/link";
+import { LayoutDashboardIcon } from "lucide-react";
 
 const BookingsPage = async () => {
-
     let user: any;
-    try {
-        user = await requireAuth()
-    } catch (error) {
-        redirect("/signin")
-    }
 
     if (user?.role === "ADMIN") {
         return (
@@ -28,16 +22,24 @@ const BookingsPage = async () => {
                             <h1 className="text-3xl md:text-5xl font-heading font-bold text-primary-foreground mb-4 animate-fade-up">
                                 Hello {user.name}
                             </h1>
-                            <p className="text-xl text-primary-foreground/80 animate-fade-up" style={{ animationDelay: "100ms" }}>
+                            <p
+                                className="text-xl text-primary-foreground/80 animate-fade-up"
+                                style={{ animationDelay: "100ms" }}
+                            >
                                 You are an admin.
                             </p>
                         </div>
                     </div>
                 </section>
 
-                <Link href={"/dashboard"} className='flex justify-center py-16 hover:text-primary'><LayoutDashboardIcon /> Go to Dashboard</Link>
+                <Link
+                    href={"/dashboard"}
+                    className="flex justify-center py-16 hover:text-primary"
+                >
+                    <LayoutDashboardIcon /> Go to Dashboard
+                </Link>
             </main>
-        )
+        );
     }
 
     return (
@@ -54,21 +56,25 @@ const BookingsPage = async () => {
                         <h1 className="text-3xl md:text-5xl font-heading font-bold text-primary-foreground mb-4 animate-fade-up">
                             Book a Service
                         </h1>
-                        <p className="text-xl text-primary-foreground/80 animate-fade-up" style={{ animationDelay: "100ms" }}>
-                            Schedule a service with our expert technicians for installations, repairs, and maintenance.
+                        <p
+                            className="text-xl text-primary-foreground/80 animate-fade-up"
+                            style={{ animationDelay: "100ms" }}
+                        >
+                            Schedule a service with our expert technicians for
+                            installations, repairs, and maintenance.
                         </p>
                     </div>
                 </div>
             </section>
 
             {/* Form Section */}
-            <section >
+            <section>
                 <div className="container mx-auto px-4">
                     <BookingForm user={user} />
                 </div>
             </section>
         </main>
-    )
-}
+    );
+};
 
-export default BookingsPage
+export default BookingsPage;
