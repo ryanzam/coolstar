@@ -9,110 +9,107 @@ import z from "zod";
 
 // schemas for auth actions
 const registerSchema = z.object({
-    name: z.string().min(3, 'Name is required'),
-    email: z.string().email('Invalid email'),
-    password: z.string().min(8, 'Password must be at least 8 characters'),
+    username: z.string().min(3, "Username is required"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
 const loginSchema = z.object({
-    email: z.string().email('Invalid email'),
-    password: z.string().min(8, 'Password must be at least 8 characters'),
+    username: z.string().min(3, "Invalid username"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
 export async function registerUser(prevState: any, formData: FormData) {
     try {
         const formdata = {
-            name: formData.get('name') as string,
-            email: formData.get('email') as string,
-            password: formData.get('password') as string,
+            username: formData.get("username") as string,
+            password: formData.get("password") as string,
         };
 
-        const validateData = registerSchema.parse(formdata)
+        const validateData = registerSchema.parse(formdata);
 
         const existingUser = await prisma.user.findUnique({
-            where: { email: validateData.email }
-        })
+            where: { username: validateData.username },
+        });
 
         if (existingUser) {
             return {
                 success: false,
-                error: "User with this email already exists.",
-            }
+                error: "Username already exists.",
+            };
         }
 
         const hashedPassword = await bcrypt.hash(validateData.password, 10);
 
         const user = await prisma.user.create({
             data: {
-                name: validateData.name,
-                email: validateData.email,
+                username: validateData.username,
                 password: hashedPassword,
-                role: 'CUSTOMER'
-            }
-        })
+            },
+        });
 
         return {
             success: true,
             message: "Registration successful. Please log in.",
-        }
-
+        };
     } catch (error) {
-        console.error('Registration error:', error);
+        console.error("Registration error:", error);
 
         if (error instanceof z.ZodError) {
             return {
                 success: false,
-                error: "Validation failed"
-            }
+                error: "Validation failed",
+            };
         }
 
         return {
             success: false,
-            error: error instanceof Error ? error.message : 'Failed to create account'
-        }
+            error:
+                error instanceof Error
+                    ? error.message
+                    : "Failed to create account",
+        };
     }
 }
 
 export async function loginUser(prevState: any, formData: FormData) {
     try {
         const formdata = {
-            email: formData.get('email') as string,
-            password: formData.get('password') as string,
+            username: formData.get("username") as string,
+            password: formData.get("password") as string,
         };
 
-        const validateData = loginSchema.parse(formdata)
+        const validateData = loginSchema.parse(formdata);
 
-        const result = await signIn('credentials', {
+        const result = await signIn("credentials", {
             redirect: false,
-            email: validateData.email,
+            username: validateData.username,
             password: validateData.password,
         });
 
         if (result?.error) {
             return {
                 success: false,
-                error: "Invalid email or password.",
-            }
+                error: "Invalid username or password.",
+            };
         }
-
     } catch (error) {
-        console.error('Login user error:', error);
+        console.error("Login user error:", error);
 
         if (error instanceof z.ZodError) {
             return {
                 success: false,
-                error: "Invalid email or password."
-            }
+                error: "Invalid username or password.",
+            };
         }
 
         return {
             success: false,
-            error: error instanceof Error ? error.message : 'Failed to sign in'
-        }
+            error: error instanceof Error ? error.message : "Failed to sign in",
+        };
     }
 
-    revalidatePath('/dashboard');
-    redirect("/dashboard")
+    revalidatePath("/dashboard");
+    redirect("/dashboard");
 }
 
 export async function logoutUser() {
@@ -122,14 +119,15 @@ export async function logoutUser() {
         return {
             success: true,
             message: "Sign out successful.",
-        }
+        };
     } catch (error) {
-        console.error('Logout user error:', error);
+        console.error("Logout user error:", error);
 
         return {
             success: false,
-            error: error instanceof Error ? error.message : 'Failed to sign out'
-        }
+            error:
+                error instanceof Error ? error.message : "Failed to sign out",
+        };
     }
 }
 
@@ -139,16 +137,7 @@ export async function logoutUser() {
 export async function requireAuth() {
     const session = await auth();
     if (!session?.user) {
-        throw new Error('Unauthorized');
-    }
-    return session;
-}
-
-export async function requireAdmin() {
-    const session = await requireAuth();
-
-    if (session.user.role !== 'ADMIN') {
-        throw new Error('Admin access required');
+        throw new Error("Unauthorized");
     }
     return session;
 }
