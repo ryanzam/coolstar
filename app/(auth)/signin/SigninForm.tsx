@@ -22,13 +22,13 @@ const SigninForm = () => {
             <form action={formAction}>
                 <Card>
                     <CardContent className="space-y-4">
-                        <div className='flex flex-col gap-2'>
-                            <Label htmlFor="email">Email *</Label>
+                        <div className="flex flex-col gap-2">
+                            <Label htmlFor="username">Username *</Label>
                             <Input
-                                id="email"
-                                name="email"
-                                type='email'
-                                placeholder="sam@gmail.com"
+                                id="username"
+                                name="username"
+                                type="text"
+                                placeholder="sam"
                                 required
                             />
                         </div>
