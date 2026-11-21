@@ -68,7 +68,6 @@ const BookingForm = ({ user }: BookingFormProps) => {
                 )}
 
                 <form action={formAction}>
-                    <input type="hidden" name="userId" value={user?.user?.id} />
                     <input
                         type="hidden"
                         name="location"
@@ -118,7 +117,6 @@ const BookingForm = ({ user }: BookingFormProps) => {
                                     minLength={10}
                                     placeholder="Describe what you want. Installation, Service, Repairs.."
                                     rows={6}
-                                    required
                                 />
                             </div>
 
