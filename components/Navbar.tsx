@@ -1,13 +1,20 @@
-"use client"
+"use client";
 
 import { cn } from "@/lib/utils";
 import { Phone, X, Menu } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import Link from 'next/link'
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { logoutUser, requireAuth } from "@/app/api/auth";
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "./ui/navigation-menu";
+import {
+    NavigationMenu,
+    NavigationMenuContent,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    NavigationMenuTrigger,
+} from "./ui/navigation-menu";
 
 const navLinks = [
     { name: "Home", path: "/" },
@@ -16,7 +23,6 @@ const navLinks = [
 ];
 
 const Navbar = () => {
-
     const [isOpen, setIsOpen] = useState(false);
     const [user, setUser] = useState<any>(null);
 
@@ -24,18 +30,20 @@ const Navbar = () => {
     const router = useRouter();
 
     useEffect(() => {
-        requireAuth().then((session) => {
-            setUser(session?.user);
-        }).catch(() => {
-            setUser(null);
-        });
-    }, [])
+        requireAuth()
+            .then((session) => {
+                setUser(session?.user);
+            })
+            .catch(() => {
+                setUser(null);
+            });
+    }, []);
 
     const onLogout = async () => {
         await logoutUser();
         setUser(null);
         router.push("/");
-    }
+    };
 
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 glass-card">
@@ -60,7 +68,7 @@ const Navbar = () => {
                                     "px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300",
                                     location === link.path
                                         ? "bg-primary/10 text-primary"
-                                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                                        : "text-muted-foreground hover:text-foreground hover:bg-muted",
                                 )}
                             >
                                 {link.name}
@@ -70,37 +78,54 @@ const Navbar = () => {
 
                     {/* CTA Button */}
                     <div className="hidden lg:flex items-center gap-4">
-                        {user ?
+                        {user ? (
                             <>
                                 <NavigationMenu>
                                     <NavigationMenuList>
                                         <NavigationMenuItem>
                                             <NavigationMenuTrigger>
-                                                {user.name}
+                                                {user.username.toUpperCase()}
                                             </NavigationMenuTrigger>
                                             <NavigationMenuContent className="w-100">
-                                                <NavigationMenuLink className="cursor-pointer">Profile</NavigationMenuLink>
-                                                <NavigationMenuLink href="/dashboard" className="cursor-pointer">Dashboard</NavigationMenuLink>
-                                                {user.role === "CUSTOMER" && <NavigationMenuLink href="/booking" className="cursor-pointer">Booking</NavigationMenuLink>}
-                                                <NavigationMenuLink onClick={onLogout} className="cursor-pointer">Logout</NavigationMenuLink>
+                                                <NavigationMenuLink className="cursor-pointer">
+                                                    Profile
+                                                </NavigationMenuLink>
+                                                <NavigationMenuLink
+                                                    href="/dashboard"
+                                                    className="cursor-pointer"
+                                                >
+                                                    Dashboard
+                                                </NavigationMenuLink>
+                                                {user.role === "CUSTOMER" && (
+                                                    <NavigationMenuLink
+                                                        href="/booking"
+                                                        className="cursor-pointer"
+                                                    >
+                                                        Booking
+                                                    </NavigationMenuLink>
+                                                )}
+                                                <NavigationMenuLink
+                                                    onClick={onLogout}
+                                                    className="cursor-pointer"
+                                                >
+                                                    Logout
+                                                </NavigationMenuLink>
                                             </NavigationMenuContent>
                                         </NavigationMenuItem>
                                     </NavigationMenuList>
                                 </NavigationMenu>
-                            </> :
+                            </>
+                        ) : (
                             <>
                                 <a
                                     href="tel:986-5400200"
-                                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                                    className="flex items-center bg-primary rounded-md gap-2 text-sm text-white px-3 py-2  hover:bg-primary/80 transition-colors"
                                 >
                                     <Phone className="w-4 h-4" />
                                     <span>986-5400200</span>
                                 </a>
-                                <Button asChild variant="default" size="sm">
-                                    <Link href="/signin">Sign In</Link>
-                                </Button>
                             </>
-                        }
+                        )}
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -116,34 +141,44 @@ const Navbar = () => {
                         )}
                     </button>
                 </div>
-            </div >
+            </div>
 
             {/* Mobile Navigation */}
             {user ? (
-                < div
-                    className={
-                        cn(
-                            "lg:hidden overflow-hidden transition-all duration-300",
-                            isOpen ? "max-h-96 border-t border-border" : "max-h-0"
-                        )
-                    }
+                <div
+                    className={cn(
+                        "lg:hidden overflow-hidden transition-all duration-300",
+                        isOpen ? "max-h-96 border-t border-border" : "max-h-0",
+                    )}
                 >
-                    <div className="flex flex-col gap-3 text-center" style={{ padding: "10px" }}>
-                        <h3>Welcome, {user.name}</h3>
-                        <Link href="/profile" className="hover:bg-accent cursor-pointer py-2">Profile</Link>
-                        <Link href="/dashboard" className="hover:bg-accent cursor-pointer py-2">Dashboard</Link>
-                        {user?.role === "CUSTOMER" && <Link href="/booking" className="hover:bg-accent cursor-pointer py-2">Book a Service</Link>}
-                        <Button onClick={onLogout} className="cursor-pointer">Logout</Button>
+                    <div
+                        className="flex flex-col gap-3 text-center"
+                        style={{ padding: "10px" }}
+                    >
+                        <h3>Welcome, {user.username}</h3>
+                        <Link
+                            href="/profile"
+                            className="hover:bg-accent cursor-pointer py-2"
+                        >
+                            Profile
+                        </Link>
+                        <Link
+                            href="/dashboard"
+                            className="hover:bg-accent cursor-pointer py-2"
+                        >
+                            Dashboard
+                        </Link>
+                        <Button onClick={onLogout} className="cursor-pointer">
+                            Logout
+                        </Button>
                     </div>
                 </div>
             ) : (
-                < div
-                    className={
-                        cn(
-                            "lg:hidden overflow-hidden transition-all duration-300",
-                            isOpen ? "max-h-96 border-t border-border" : "max-h-0"
-                        )
-                    }
+                <div
+                    className={cn(
+                        "lg:hidden overflow-hidden transition-all duration-300",
+                        isOpen ? "max-h-96 border-t border-border" : "max-h-0",
+                    )}
                 >
                     <div className="container mx-auto px-4 py-4 space-y-2">
                         {navLinks.map((link) => (
@@ -155,25 +190,34 @@ const Navbar = () => {
                                     "block px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300",
                                     location === link.path
                                         ? "bg-primary/10 text-primary"
-                                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                                        : "text-muted-foreground hover:text-foreground hover:bg-muted",
                                 )}
                             >
                                 {link.name}
                             </Link>
                         ))}
                         <div className="pt-4 border-t border-border">
-                            <Button asChild variant="default" className="w-full">
-                                <Link href="/signin" onClick={() => setIsOpen(false)}>
-                                    Sign in now
-                                </Link>
+                            <Button
+                                asChild
+                                variant="default"
+                                className="w-full bg-primary"
+                            >
+                                <a
+                                    href="tel:986-5400200"
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    <Phone className="w-4 h-4" />
+                                    <span className="text-white">
+                                        986-5400200
+                                    </span>
+                                </a>
                             </Button>
                         </div>
                     </div>
-                </div >
-            )
-            }
-        </nav >
-    )
-}
+                </div>
+            )}
+        </nav>
+    );
+};
 
-export default Navbar
+export default Navbar;

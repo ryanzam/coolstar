@@ -1,4 +1,4 @@
-import { MapPin, Phone, Mail, Facebook } from 'lucide-react'
+import { MapPin, Phone, Mail, Facebook, Instagram } from 'lucide-react'
 import Link from 'next/link'
 
 const Footer = () => {
@@ -87,16 +87,16 @@ const Footer = () => {
                             </li>
                             <li>
                                 <a
-                                    href="mailto:coolstarofficial@outlook.com"
+                                    href="https://www.instagram.com/coolstar.refrigeration/"
                                     className="flex items-center gap-3 text-secondary-foreground/80 hover:text-arctic transition-colors text-sm"
                                 >
-                                    <Mail className="w-5 h-5 text-arctic flex-shrink-0" />
-                                    coolstarofficial@outlook.com
+                                    <Instagram className="w-5 h-5 text-arctic flex-shrink-0" />
+                                    Follow us on Instagram
                                 </a>
                             </li>
                             <li>
                                 <a
-                                    href="https://www.facebook.com/coolstarofficial/"
+                                    href="https://www.facebook.com/coolstarofficiaI/"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex items-center gap-3 text-secondary-foreground/80 hover:text-arctic transition-colors text-sm"
