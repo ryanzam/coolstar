@@ -1,6 +1,6 @@
 import Cta from "@/components/Cta";
 import Hero from "@/components/Hero";
-import QuickAction from "@/components/QuickAction";
+import Review from "@/components/GoogleReviewWidget";
 import Sectors from "@/components/Sectors";
 import Services from "@/components/Services";
 
@@ -11,7 +11,7 @@ export default function Home() {
       <Sectors />
       <Services />
       <Cta />
-      <QuickAction />
+      <Review />
     </div>
   );
 }

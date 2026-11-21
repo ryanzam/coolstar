@@ -1,14 +1,15 @@
-import { ShieldUserIcon } from "lucide-react"
-import { requireAuth } from "../api/auth"
-import { redirect } from "next/navigation"
+import { ShieldUserIcon } from "lucide-react";
+import { requireAuth } from "../api/auth";
+import { redirect } from "next/navigation";
 
 const ProfilePage = async () => {
-
-    const { user } = await requireAuth()
+    const { user } = await requireAuth();
 
     if (!user) {
-        redirect("/signin")
+        redirect("/signin");
     }
+
+    console.log("User:", user);
 
     return (
         <main className="pt-20 min-h-screen frost-bg">
@@ -22,23 +23,15 @@ const ProfilePage = async () => {
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="max-w-2xl flex items-center">
                         <ShieldUserIcon size={100} color="#fff" />
-                        <span className="text-3xl md:text-5xl font-heading font-bold text-primary-foreground">Hi, {user.name}</span>
+                        <span className="text-3xl md:text-5xl font-heading font-bold text-primary-foreground">
+                            Hi, {user?.username}
+                        </span>
                     </div>
-                </div>
-
-            </section>
-
-            {/* Form Section */}
-            <section style={{ marginTop: "30px" }}>
-                <div className="container mx-auto px-4">
-                    <p className="text-xl animate-fade-up" style={{ animationDelay: "100ms" }}>
-                        Email: {user.email} <br />
-                        Role: {user.role}
-                    </p>
+                    
                 </div>
             </section>
         </main>
-    )
-}
+    );
+};
 
-export default ProfilePage
+export default ProfilePage;
